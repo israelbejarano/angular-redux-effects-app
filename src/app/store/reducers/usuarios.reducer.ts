@@ -34,7 +34,15 @@ export function usuariosReducer(state = estadoInicial, action: fromUsuarios.usua
                 ...state,
                 loaded: false,
                 loading: false,
-                error: action.payload
+                // se lo que contiene un error porque al principio pintaba el error entero
+                // y en el chart de las devtools del redux se ven todos los campos que
+                // tiene un error cuando se dispara un error
+                // hay mas campos en el objeto error que recibimos
+                error: {
+                    status: action.payload.status,
+                    message: action.payload.message,
+                    url: action.payload.url
+                }
             };
         default:
             return state;
