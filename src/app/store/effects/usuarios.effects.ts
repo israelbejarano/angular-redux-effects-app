@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as usuariosActions from '../actions';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Injectable()
 export class UsuariosEffects {
-    constructor(private actions$: Actions) {}
+    constructor(private actions$: Actions, public usuarioService: UsuarioService) {}
 
-    @Effect({dispatch: false})
+    @Effect()
     cargarUsuarios$ = this.actions$.pipe(ofType(usuariosActions.CARGAR_USUARIOS))
-        .pipe(map(action => {
-            console.log(action);
-            return action;
+        .pipe(switchMap(() => {
+            return this.usuarioService.getUsers()
+                .pipe(map(usuarios => new usuariosActions.CargarUsuariosSuccess(usuarios)));
         }));
 }
