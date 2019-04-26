@@ -8,7 +8,9 @@ import { AppRoutingModule } from './app-routing.module';
 // ngrx
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { appReducers } from './store/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/app.reducer';
+import { effectsArr } from './store/effects/index';
 
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +28,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot(effectsArr),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
